@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\PegawaiController;
 use App\Http\Controllers\Admin\TenagaMedisController;
 use App\Http\Controllers\Admin\PenyakitController as AdminPenyakit;
 use App\Http\Controllers\Admin\ObatController as AdminObat;
+use App\Http\Controllers\Admin\ReportController;
 
 use App\Http\Controllers\Medis\DashboardController as MedisDashboard;
 use App\Http\Controllers\Medis\PresensiController;
@@ -39,6 +40,32 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::resource('tenaga-medis', TenagaMedisController::class);
     Route::resource('penyakit', AdminPenyakit::class);
     Route::resource('obat', AdminObat::class);
+
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('/presensi-tenaga-medis', [ReportController::class, 'presensiTenagaMedis'])->name('presensi-tenaga-medis');
+        Route::get('/presensi-tenaga-medis/export', [ReportController::class, 'exportPresensiTenagaMedis'])->name('presensi-tenaga-medis.export');
+
+        Route::get('/istirahat-sakit', [ReportController::class, 'istirahatSakit'])->name('istirahat-sakit');
+        Route::get('/istirahat-sakit/export', [ReportController::class, 'exportIstirahatSakit'])->name('istirahat-sakit.export');
+
+        Route::get('/istirahat-hamil', [ReportController::class, 'istirahatHamil'])->name('istirahat-hamil');
+        Route::get('/istirahat-hamil/export', [ReportController::class, 'exportIstirahatHamil'])->name('istirahat-hamil.export');
+
+        Route::get('/laktasi', [ReportController::class, 'laktasi'])->name('laktasi');
+        Route::get('/laktasi/export', [ReportController::class, 'exportLaktasi'])->name('laktasi.export');
+
+        Route::get('/konsultasi', [ReportController::class, 'konsultasi'])->name('konsultasi');
+        Route::get('/konsultasi/export', [ReportController::class, 'exportKonsultasi'])->name('konsultasi.export');
+
+        Route::get('/permintaan-obat', [ReportController::class, 'permintaanObat'])->name('permintaan-obat');
+        Route::get('/permintaan-obat/export', [ReportController::class, 'exportPermintaanObat'])->name('permintaan-obat.export');
+
+        Route::get('/kwitansi', [ReportController::class, 'kwitansi'])->name('kwitansi');
+        Route::get('/kwitansi/export', [ReportController::class, 'exportKwitansi'])->name('kwitansi.export');
+
+        Route::get('/kunjungan', [ReportController::class, 'kunjungan'])->name('kunjungan');
+        Route::get('/kunjungan/export', [ReportController::class, 'exportKunjungan'])->name('kunjungan.export');
+    });
 });
 
 Route::middleware('auth')->prefix('medis')->name('medis.')->group(function () {

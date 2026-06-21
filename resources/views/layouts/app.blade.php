@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,20 +8,22 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body class="bg-gray-50 font-sans flex h-screen overflow-hidden text-gray-900" 
     x-data="{ 
-        sidebarOpen: true, 
+        sidebarOpen: window.innerWidth >= 768, 
         deleteModalOpen: false, 
         deleteFormId: null,
         confirmDelete(id) {
             this.deleteFormId = id;
             this.deleteModalOpen = true;
         }
-    }">
+    }"
+    @resize.window="if(window.innerWidth < 768) sidebarOpen = false">
 
-    <aside :class="sidebarOpen ? 'w-72' : 'w-20'"
-        class="transition-all duration-300 bg-slate-900 text-white flex flex-col h-full shadow-2xl relative z-30">
+    <div x-show="sidebarOpen" x-transition.opacity @click="sidebarOpen = false" class="fixed inset-0 bg-slate-900/60 z-20 md:hidden" style="display: none;"></div>
+
+    <aside :class="sidebarOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72 md:translate-x-0 md:w-20'"
+        class="fixed md:relative z-30 transition-all duration-300 bg-slate-900 text-white flex flex-col h-full shadow-2xl">
         <div class="h-20 flex items-center justify-between px-6 border-b border-slate-800/60">
             <h1 x-show="sidebarOpen" x-transition
                 class="text-2xl font-bold tracking-wider bg-gradient-to-r from-indigo-400 to-cyan-400 bg-clip-text text-transparent whitespace-nowrap">
@@ -118,6 +119,74 @@
                 </svg>
                 <span x-show="sidebarOpen" class="whitespace-nowrap">Posisi</span>
             </a>
+
+            <div class="pt-4 pb-2 px-3" x-show="sidebarOpen">
+                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Laporan & Rekapitulasi</p>
+            </div>
+
+            <a href="{{ route('admin.laporan.presensi-tenaga-medis') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.presensi-tenaga-medis') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Presensi Dokter/Medis</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.istirahat-sakit') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.istirahat-sakit') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Istirahat Sakit</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.istirahat-hamil') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.istirahat-hamil') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Istirahat Hamil</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.laktasi') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.laktasi') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Laktasi</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.konsultasi') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.konsultasi') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Konsultasi Dokter</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.permintaan-obat') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.permintaan-obat') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Permintaan Obat</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.kwitansi') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.kwitansi') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Kwitansi</span>
+            </a>
+
+            <a href="{{ route('admin.laporan.kunjungan') }}"
+                class="flex items-center gap-4 px-3 py-3 rounded-xl hover:bg-slate-800 transition-all font-medium {{ request()->routeIs('admin.laporan.kunjungan') ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-300' }}">
+                <svg class="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span x-show="sidebarOpen" class="whitespace-nowrap">Semua Kunjungan</span>
+            </a>
         </nav>
 
         <div class="p-3 border-t border-slate-800/60 bg-slate-900/50">
@@ -135,23 +204,28 @@
         </div>
     </aside>
 
-    <main class="flex-1 flex flex-col h-full bg-slate-50 relative z-10 overflow-hidden">
-        <header
-            class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center justify-between px-8 z-20 shadow-sm relative">
-            <h2 class="text-xl font-bold text-gray-800">@yield('header')</h2>
-            <div class="flex items-center gap-4">
-                <div class="flex flex-col items-end">
+    <main class="flex-1 flex flex-col h-full bg-slate-50 relative z-10 overflow-hidden w-full">
+        <header class="h-20 bg-white/80 backdrop-blur-md border-b border-gray-200 flex items-center justify-between px-4 md:px-8 z-10 shadow-sm relative w-full">
+            <div class="flex items-center gap-3 md:gap-4 truncate">
+                <button @click="sidebarOpen = !sidebarOpen" class="md:hidden text-gray-600 hover:text-gray-900 focus:outline-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <h2 class="text-lg md:text-xl font-bold text-gray-800 truncate">@yield('header')</h2>
+            </div>
+            <div class="flex items-center gap-3 md:gap-4 ml-2">
+                <div class="hidden sm:flex flex-col items-end">
                     <span class="text-sm font-bold text-gray-900">{{ auth()->user()->name ?? 'User' }}</span>
                     <span class="text-xs font-medium text-gray-500 uppercase">{{ auth()->user()->role ?? 'Role' }}</span>
                 </div>
-                <div
-                    class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border border-indigo-200">
+                <div class="h-9 w-9 md:h-10 md:w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 font-bold border border-indigo-200 shrink-0">
                     {{ substr(auth()->user()->name ?? 'U', 0, 1) }}
                 </div>
             </div>
         </header>
 
-        <div class="flex-1 overflow-y-auto p-8 scrollbar-hide">
+        <div class="flex-1 overflow-y-auto p-4 md:p-8 scrollbar-hide">
             @yield('content')
         </div>
     </main>
@@ -162,7 +236,7 @@
                 <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm"></div>
             </div>
             <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>&#8203;
-            <div x-show="deleteModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+            <div x-show="deleteModalOpen" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="inline-block align-bottom bg-white rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
                 <div class="bg-white px-6 pt-6 pb-4 sm:p-8 sm:pb-4">
                     <div class="sm:flex sm:items-start">
                         <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
@@ -186,7 +260,7 @@
         </div>
     </div>
 
-    <div id="toast-container" class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 w-full max-w-xs pointer-events-none">
+    <div id="toast-container" class="fixed top-4 right-4 left-4 sm:left-auto sm:top-5 sm:right-5 z-[9999] flex flex-col gap-3 w-auto sm:w-full sm:max-w-xs pointer-events-none">
         @if(session('success'))
             <div x-data="{ show: true }" x-show="show" x-init="setTimeout(() => show = false, 4000)"
                 class="pointer-events-auto bg-white border-l-4 border-green-500 rounded-xl shadow-2xl p-4 flex items-center justify-between animate-slide-in">
